@@ -1225,21 +1225,15 @@ const GM='Olá! Vim pelo site SANTRINE e gostaria de conhecer as peças ♡';
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
   if (window.netlifyIdentity) {
-    // 1. Só redireciona se o evento de LOGIN acontecer (clique manual)
-    window.netlifyIdentity.on("login", user => {
-      window.netlifyIdentity.close();
-      window.location.href = "/admin/";
-    });
-
-    // 2. IMPORTANTE: Garante que o widget NÃO abra sozinho no carregamento da Home
     window.netlifyIdentity.on("init", user => {
-      // Se não houver token de confirmação na URL, não faz nada
-      if (!location.hash.includes("confirmation_token")) {
-        // Isso impede que o widget "pule" na tela sozinho
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
       }
     });
 
-    // 3. Abre apenas se for um link de confirmação de e-mail
+    // Isso aqui força a abertura do login quando você clica no e-mail
     if (location.hash.includes("confirmation_token")) {
       window.netlifyIdentity.open("signup");
     }
