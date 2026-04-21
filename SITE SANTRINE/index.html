@@ -1125,8 +1125,8 @@ const WPP = '5521974991464';
 const wu = msg => `https://wa.me/${WPP}?text=${encodeURIComponent(msg)}`;
 const g = id => document.getElementById(id);
 
-// --- CARREGAR PRODUTOS DO JSON (CORRIGIDO) ---
-fetch('./data/produtos.json') // Caminho relativo para funcionar no Netlify
+// --- CARREGAR PRODUTOS DO JSON ---
+fetch('./data/produtos.json') 
   .then(res => {
     if (!res.ok) throw new Error('Arquivo JSON não encontrado');
     return res.json();
@@ -1136,8 +1136,7 @@ fetch('./data/produtos.json') // Caminho relativo para funcionar no Netlify
       const el = g(id);
       if (!el || !produto) return;
       
-      // LIMPEZA DO CAMINHO DA IMAGEM: 
-      // Garante que o link funcione mesmo se o CMS gravar o nome da pasta
+      // LIMPEZA DO LINK: Remove "SITE SANTRINE/" caso o CMS salve o caminho completo
       let imgLink = produto.imagem;
       if (imgLink.includes('SITE SANTRINE/')) {
           imgLink = imgLink.replace('SITE SANTRINE/', '/');
@@ -1168,53 +1167,53 @@ fetch('./data/produtos.json') // Caminho relativo para funcionar no Netlify
       `;
     };
 
-    // Chamadas para as 3 categorias (Names em minúsculo igual ao seu script/html)
+    // Renderiza usando os nomes em minúsculo do seu JSON
     renderizar('lista-produto1', data.produto1, 'Brincos');
     renderizar('lista-produto2', data.produto2, 'Conjuntos');
     renderizar('lista-produto3', data.produto3, 'Colares/Outros');
   })
-  .catch(err => console.error("Erro ao carregar produtos:", err));
+  .catch(err => console.error("Erro Santrine:", err));
 
-  // --- RESTANTE DAS FUNÇÕES (NAVBAR, HAMBURGER, PÉTALAS) ---
-  window.addEventListener('scroll',()=> {
-    const nav = g('nav');
-    if(nav) nav.classList.toggle('scrolled', scrollY > 60);
+// --- INTERFACE (NAVBAR, MOBILE, PÉTALAS) ---
+window.addEventListener('scroll',()=> {
+  const nav = g('nav');
+  if(nav) nav.classList.toggle('scrolled', scrollY > 60);
+});
+
+const ham = g('ham');
+const mob = g('mob');
+if(ham && mob) {
+  ham.addEventListener('click',()=>{
+    ham.classList.toggle('open');
+    mob.classList.toggle('open');
   });
+  document.querySelectorAll('.mob a').forEach(a=>a.addEventListener('click',()=>{
+    ham.classList.remove('open');
+    mob.classList.remove('open');
+  }));
+}
 
-  const ham = g('ham');
-  const mob = g('mob');
-  if(ham && mob) {
-    ham.addEventListener('click',()=>{
-      ham.classList.toggle('open');
-      mob.classList.toggle('open');
-    });
-    document.querySelectorAll('.mob a').forEach(a=>a.addEventListener('click',()=>{
-      ham.classList.remove('open');
-      mob.classList.remove('open');
-    }));
-  }
+const fab = g('fab');
+if(fab) setTimeout(()=> fab.classList.add('show'), 1600);
 
-  const fab = g('fab');
-  if(fab) setTimeout(()=> fab.classList.add('show'), 1600);
+const io = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('on'),i*80); io.unobserve(e.target); }});
+},{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
-  const io = new IntersectionObserver(entries=>{
-    entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('on'),i*80); io.unobserve(e.target); }});
-  },{threshold:.08});
-  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+const yrEl = g('yr'); 
+if(yrEl) yrEl.textContent=`© ${new Date().getFullYear()} SANTRINE. Todos os direitos reservados.`;
 
-  const yrEl = g('yr'); 
-  if(yrEl) yrEl.textContent=`© ${new Date().getFullYear()} SANTRINE. Todos os direitos reservados.`;
-
-  function spawnPetal(){
-    const p=document.createElement('div');
-    p.className='petal';
-    const s=Math.random()*12+6;
-    p.style.cssText=`--ps:${s}px;--po:${(Math.random()*.2+.08).toFixed(2)};--pd:${(Math.random()*4+4).toFixed(1)}s;--pdelay:${(Math.random()*2).toFixed(1)}s;--pr:${Math.floor(Math.random()*360)}deg;left:${Math.random()*100}vw;top:${Math.random()*60+20}vh;`;
-    document.body.appendChild(p);
-    setTimeout(()=>p.remove(), 8000);
-  }
-  for(let i=0;i<12;i++) setTimeout(spawnPetal,i*400+1000);
-  setInterval(spawnPetal,3000);
+function spawnPetal(){
+  const p=document.createElement('div');
+  p.className='petal';
+  const s=Math.random()*12+6;
+  p.style.cssText=`--ps:${s}px;--po:${(Math.random()*.2+.08).toFixed(2)};--pd:${(Math.random()*4+4).toFixed(1)}s;--pdelay:${(Math.random()*2).toFixed(1)}s;--pr:${Math.floor(Math.random()*360)}deg;left:${Math.random()*100}vw;top:${Math.random()*60+20}vh;`;
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(), 8000);
+}
+for(let i=0;i<12;i++) setTimeout(spawnPetal,i*400+1000);
+setInterval(spawnPetal,3000);
 
 const GM='Olá! Vim pelo site SANTRINE e gostaria de conhecer as peças ♡';
 ['navWpp','mobWpp','fabBtn','fWpp','fWpp2','heroWpp','featWpp'].forEach(id=>{
@@ -1226,13 +1225,13 @@ const GM='Olá! Vim pelo site SANTRINE e gostaria de conhecer as peças ♡';
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
   if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/SITE%20SANTRINE/admin/";
-        });
-      }
+    // Escuta o evento de login e redireciona
+    window.netlifyIdentity.on("login", user => {
+      window.netlifyIdentity.close(); // Fecha o widget
+      window.location.href = "/admin/"; // Redireciona para /admin/ (dentro da SITE SANTRINE)
     });
+
+    // Caso o usuário clique em um link de convite/confirmação
     if (location.hash.includes("confirmation_token")) {
       window.netlifyIdentity.open("signup");
     }
