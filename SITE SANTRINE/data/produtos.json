@@ -1,20 +1,20 @@
 {
   "produto1": {
-    "nome": "teste",
+    "nome": "Brinco charmoso",
     "preco": "49,90",
-    "imagem": "/img/whatsapp-image-2025-11-17-at-17.52.08.jpeg",
+    "imagem": "/img/brinco.jpeg",
     "tag": "Novo"
   },
   "produto2": {
-    "nome": "Produto 2",
+    "nome": "Colar brilhoso",
     "preco": "59,90",
-    "imagem": "/img/produto2.jpg",
+    "imagem": "/img/conjunto.jpeg",
     "tag": "Promo"
   },
   "produto3": {
-    "nome": "Produto 3",
+    "nome": "Conjunto ",
     "preco": "39,90",
-    "imagem": "/img/produto3.jpg",
+    "imagem": "/img/conjunto.jpeg",
     "tag": ""
   }
 }
