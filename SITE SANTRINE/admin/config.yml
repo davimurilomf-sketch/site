@@ -1,0 +1,34 @@
+collections:
+  - name: "destaques"
+    label: "Produtos em Destaque"
+    files:
+      - name: "lista"
+        label: "Atualizar Peças"
+        file: "SITE SANTRINE/data/produtos.json"
+        fields:
+          - label: "Brincos (Produto 1)"
+            name: "produto1"
+            widget: "object"
+            fields:
+              - { label: "Nome", name: "nome", widget: "string" }
+              - { label: "Preço", name: "preco", widget: "string" }
+              - { label: "Imagem", name: "imagem", widget: "image" }
+              - { label: "Tag", name: "tag", widget: "string", required: false }
+
+          - label: "Conjuntos (Produto 2)"
+            name: "produto2"
+            widget: "object"
+            fields:
+              - { label: "Nome", name: "nome", widget: "string" }
+              - { label: "Preço", name: "preco", widget: "string" }
+              - { label: "Imagem", name: "imagem", widget: "image" }
+              - { label: "Tag", name: "tag", widget: "string", required: false }
+
+          - label: "Colares/Outros (Produto 3)"
+            name: "produto3"
+            widget: "object"
+            fields:
+              - { label: "Nome", name: "nome", widget: "string" }
+              - { label: "Preço", name: "preco", widget: "string" }
+              - { label: "Imagem", name: "imagem", widget: "image" }
+              - { label: "Tag", name: "tag", widget: "string", required: false }

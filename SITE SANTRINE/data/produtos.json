@@ -1,0 +1,20 @@
+{
+  "produto1": {
+    "nome": "Produto 1",
+    "preco": "49,90",
+    "imagem": "/img/produto1.jpg",
+    "tag": "Novo"
+  },
+  "produto2": {
+    "nome": "Produto 2",
+    "preco": "59,90",
+    "imagem": "/img/produto2.jpg",
+    "tag": "Promo"
+  },
+  "produto3": {
+    "nome": "Produto 3",
+    "preco": "39,90",
+    "imagem": "/img/produto3.jpg",
+    "tag": ""
+  }
+}
