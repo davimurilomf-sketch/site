@@ -13,7 +13,7 @@ collections:
         label: "Atualizar Peças"
         file: "SITE SANTRINE/data/produtos.json"
         fields:
-          - label: "Brincos (Produto 1)"
+          - label: "(Produto 1)"
             name: "produto1"
             widget: "object"
             fields:
@@ -22,7 +22,7 @@ collections:
               - { label: "Imagem", name: "imagem", widget: "image" }
               - { label: "Tag", name: "tag", widget: "string", required: false }
 
-          - label: "Conjuntos (Produto 2)"
+          - label: "(Produto 2)"
             name: "produto2"
             widget: "object"
             fields:
@@ -31,7 +31,7 @@ collections:
               - { label: "Imagem", name: "imagem", widget: "image" }
               - { label: "Tag", name: "tag", widget: "string", required: false }
 
-          - label: "Colares/Outros (Produto 3)"
+          - label: "(Produto 3)"
             name: "produto3"
             widget: "object"
             fields:
